@@ -4,6 +4,7 @@ const multer = require('multer');
 const mysql = require('mysql2');
 const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 require('dotenv').config();
+const schedule = require('node-schedule');
 
 console.log(process.env.FS_ACCOUNT_NAME);
 // Azure blob storage
@@ -78,7 +79,7 @@ router.post('/upload', upload.single('img'), async (req, res) => {
         return res.status(500).send('이미지 등록 실패');
       }
       console.log('DB 저장 성공');
-      res.json({ message: "이미지 저장 성공", newID });
+      res.json({ newID });
     });
   } catch (error) {
     console.error(error);
@@ -86,12 +87,12 @@ router.post('/upload', upload.single('img'), async (req, res) => {
   }
 });
 
-// GET, 데이터베이스에서 정보 불러온 후 파일 서버에서 이미지 다운로드 및 삭제(DB, 파일 서버 모두)
+// GET, 데이터베이스에서 정보 불러온 후 파일 서버에서 이미지 다운로드
 router.get('/temp_image/:id', async (req, res) => { 
     const { id } = req.params
     console.log('이미지 요청: ', id);
 
-    const selectQuery = 'SELECT * FROM TEMP_IMAGE WHERE id = ?';
+    const selectQuery = 'SELECT Save_path FROM TEMP_IMAGE WHERE id = ?';
     connection.query(selectQuery, [ id ], async (err, results) => {
         if (err) {
           console.error('DB 불러오기 실패: ' + err.message);
@@ -100,7 +101,7 @@ router.get('/temp_image/:id', async (req, res) => {
         console.log('DB 불러오기 성공', results);
 
         try {
-          const blockBlobClient = containerClient.getBlockBlobClient(results[0].Save_path);
+          const blockBlobClient = await containerClient.getBlockBlobClient(results[0].Save_path);
           temp_image = await blockBlobClient.download();
 
           if (temp_image.readableStreamBody) {
@@ -131,6 +132,43 @@ router.get('/temp_image/:id', async (req, res) => {
           res.status(500).send('해당 ID 없음');
         }
     });
+});
+
+// 자정마다 24시간이 지난 파일 삭제
+schedule.scheduleJob('* * 0 * * *', function() {
+  console.log("파일 자동 삭제 시작")
+
+  const selectQuery = 'SELECT Save_path FROM TEMP_IMAGE WHERE Save_time < DATE_SUB(?, INTERVAL 1 DAY)';
+  connection.query(selectQuery, [ new Date() ], async (err, results) => {
+    if (err) {
+      console.error('DB 불러오기 실패: ' + err.message);
+    }
+    else { 
+      console.log('DB 불러오기 성공');
+
+      try {
+        if (results.length <= 0) console.log("삭제할 사진 없음");
+        for (i of results) {
+          blockBlobClient = await containerClient.getBlockBlobClient(i.Save_path);
+          await blockBlobClient.delete();
+        }
+        console.log("azure에서 24시간 지난 파일 삭제 성공");
+
+        connection.query('set sql_safe_updates=0');
+        const deleteQuery = 'DELETE FROM TEMP_IMAGE WHERE Save_time < DATE_SUB(?, INTERVAL 1 DAY)';
+        connection.query(deleteQuery, [ new Date() ], async (err, results) => {
+          if (err) {
+            console.error('DB에서 삭제 실패: ' + err.message);
+          } else {
+            console.log('DB에서 삭제 완료');
+          }
+        });
+        connection.query('set sql_safe_updates=1');
+      } catch {
+        console.log("azure에서 24시간 지난 파일 삭제 실패")
+      }
+    }
+  });
 });
 
 module.exports = router;
