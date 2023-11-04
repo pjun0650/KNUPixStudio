@@ -1,13 +1,13 @@
 const express = require('express');
 const fs = require('fs');
-const imgRouter = require('./routes/img');
+const imgRouter = require('./server/routes/img');
 
 const app = express();
 
 app.use('/', imgRouter);
 
 app.get('/', function (req, res) {
-    fs.readFile('test.html', 'utf8', function (err, data) {
+    fs.readFile('index.html', 'utf8', function (err, data) {
         if (err) {
             console.error(err);
             res.status(500).send('Internal Server Error');
