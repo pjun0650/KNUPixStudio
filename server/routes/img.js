@@ -5,6 +5,7 @@ const mysql = require('mysql2');
 const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 require('dotenv').config();
 const schedule = require('node-schedule');
+const bodyParser = require('body-parser')
 
 console.log(process.env.FS_ACCOUNT_NAME);
 // Azure blob storage
@@ -53,7 +54,7 @@ function generateID() {
 
 // post 시 서버 메모리에 이미지 임시 저장
 const storage = multer.memoryStorage();
-const upload = multer({ storage, limits: { fieldSize: 1024 * 1024 * 100 } }); // 100 MB로 제한
+const upload = multer({ storage, limits: { fieldSize: 1024 * 1024 * 1024 } }); // 1 GB 제한
 const uploadFields = upload.fields([{name: "canvas"}, {name: "backgroundImage"}, {name: "icons"}, {name: "imageobjects"}, {name: "canvassize"}]);
 
 // POST, 이미지 파일 서버에 업로드 후 데이터베이스에 정보 저장
@@ -87,9 +88,12 @@ router.post('/upload.php', uploadFields, async (req, res) => {
   }
 });
 
+router.use(bodyParser.urlencoded({extended:true}));
+router.use(bodyParser.json());
+
 // POST, 데이터베이스에서 정보 불러온 후 파일 서버에서 이미지 다운로드
-router.post('/retreive.php', async (req, res) => { 
-    const id = req.body.id;
+router.post('/retrieve.php',  async (req, res) => { 
+    const id = Object.keys(req.body)[0];
     console.log('프로젝트 요청: ', id);
 
     const selectQuery = 'SELECT Save_path FROM TEMP_IMAGE WHERE id = ?';
@@ -135,7 +139,7 @@ router.post('/retreive.php', async (req, res) => {
 });
 
 // 자정마다 24시간이 지난 파일 삭제
-schedule.scheduleJob('* * 0 * * *', function() {
+schedule.scheduleJob('0 0 0 * * *', function() {
   console.log("파일 자동 삭제 시작")
 
   const selectQuery = 'SELECT Save_path FROM TEMP_IMAGE WHERE Save_time < DATE_SUB(?, INTERVAL 1 DAY)';
