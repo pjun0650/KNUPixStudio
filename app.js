@@ -5,6 +5,7 @@ const imgRouter = require('./server/routes/img');
 const app = express();
 
 app.use('/', imgRouter);
+app.use(express.static('public'));
 
 app.get('/', function (req, res) {
     fs.readFile('index.html', 'utf8', function (err, data) {
