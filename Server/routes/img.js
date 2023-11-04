@@ -53,44 +53,44 @@ function generateID() {
 
 // post 시 서버 메모리에 이미지 임시 저장
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const upload = multer({ storage, limits: { fieldSize: 1024 * 1024 * 100 } }); // 100 MB로 제한
+const uploadFields = upload.fields([{name: "canvas"}, {name: "backgroundImage"}, {name: "icons"}, {name: "imageobjects"}, {name: "canvassize"}]);
 
 // POST, 이미지 파일 서버에 업로드 후 데이터베이스에 정보 저장
-router.post('/upload', upload.single('img'), async (req, res) => {
+router.post('/upload.php', uploadFields, async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).send('이미지 업로드 실패');
+    if (!req.body) {
+      return res.status(400).send('프로젝트 업로드 실패');
     }
-    console.log(req.file);
-
     const newID = generateID();
     console.log('ID:', newID);
 
-    const blobName = newID + req.file.originalname.substring(req.file.originalname.lastIndexOf('.'));
+    const blobName = newID + ".json";
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-    await blockBlobClient.upload(req.file.buffer, req.file.size);
-    console.log("azure에 이미지 업로드 성공")
+    const data = JSON.stringify(req.body);
+    await blockBlobClient.upload(data, data.length);
+    console.log("azure에 프로젝트 업로드 성공")
 
     const insertQuery = 'INSERT INTO TEMP_IMAGE (ID, Save_path, Save_time) VALUES (?, ?, ?)';
     const values = [newID, blobName, new Date()];
     connection.query(insertQuery, values, (err, results) => {
       if (err) {
         console.error('데이터 삽입 실패: ' + err.message);
-        return res.status(500).send('이미지 등록 실패');
+        return res.status(500).send('프로젝트 등록 실패');
       }
       console.log('DB 저장 성공');
-      res.json({ newID });
+      res.send(newID);
     });
   } catch (error) {
     console.error(error);
-    res.status(500).send('이미지 업로드 실패');
+    res.status(500).send('프로젝트 업로드 실패');
   }
 });
 
-// GET, 데이터베이스에서 정보 불러온 후 파일 서버에서 이미지 다운로드
-router.get('/temp_image/:id', async (req, res) => { 
-    const { id } = req.params
-    console.log('이미지 요청: ', id);
+// POST, 데이터베이스에서 정보 불러온 후 파일 서버에서 이미지 다운로드
+router.post('/retreive.php', async (req, res) => { 
+    const id = req.body.id;
+    console.log('프로젝트 요청: ', id);
 
     const selectQuery = 'SELECT Save_path FROM TEMP_IMAGE WHERE id = ?';
     connection.query(selectQuery, [ id ], async (err, results) => {
@@ -106,7 +106,7 @@ router.get('/temp_image/:id', async (req, res) => {
 
           if (temp_image.readableStreamBody) {
             temp_image.readableStreamBody.pipe(res);
-            console.log('이미지 불러오기 성공');
+            console.log('프로젝트 불러오기 성공');
 
             // // (else문 이전까지) 호출하면 db와 파일 서버에서 삭제
             // const deleteQuery = 'DELETE FROM TEMP_IMAGE WHERE id = ?';
@@ -120,13 +120,13 @@ router.get('/temp_image/:id', async (req, res) => {
             //   try {
             //     await blockBlobClient.delete();
             //     console.log("azure에서 삭제 성공")
-            //   } catch {
+            //   } catch (error) {
             //     console.log("azure에서 삭제 실패 성공")
             //     res.status(500).send('이미지 파일 처리 실패');
             //   }
             // });
           } else {
-            res.status(404).send("이미지 찾기 실패");
+            res.status(404).send("프로젝트 찾기 실패");
           }
         } catch (error) {
           res.status(500).send('해당 ID 없음');
@@ -164,7 +164,7 @@ schedule.scheduleJob('* * 0 * * *', function() {
           }
         });
         connection.query('set sql_safe_updates=1');
-      } catch {
+      } catch (error) {
         console.log("azure에서 24시간 지난 파일 삭제 실패")
       }
     }
