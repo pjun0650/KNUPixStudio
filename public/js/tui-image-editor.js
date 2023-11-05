@@ -3,6 +3,9 @@
  * @version 3.3.0
  * @license MIT
  */
+
+// import { searchImages } from './script_pixabay.js';
+
 (function webpackUniversalModuleDefinition(root, factory) {
   if (typeof exports === "object" && typeof module === "object")
     module.exports = factory(
@@ -5585,6 +5588,12 @@
               recent: this._selectedElement.querySelectorAll(
                 ".tui-image-editor-recent-btn"
               ),
+              searchBtn: this._selectedElement.querySelectorAll( //searchAPI
+                ".tui-image-editor-search-btn"
+              ),
+              searchForm: this._selectedElement.querySelectorAll( 
+                ".tui-image-editor-search-form"
+              ),
               download: this._selectedElement.querySelectorAll(
                 ".tui-image-editor-download-btn"
               ),
@@ -5613,6 +5622,44 @@
            */
 
           _createClass(Ui, [
+            {                              // searchAPI
+              key: "_addSearchButtonEvent",
+              value: function _addSearchButtonEvent() {
+                var _this3 = this;
+
+                _tuiCodeSnippet2.default.forEach(
+                  this._els.searchBtn,
+                  function (element) {
+                    element.addEventListener("click", function () {
+                      document.querySelector(
+                        ".tui-image-editor-search-container"
+                      ).style.display = "flex";
+                    });
+                  }
+                );
+              },
+            },
+            {
+              key: "_addSearchEvent",
+              value: function _addSearchEvent() {
+                var _this3 = this;
+
+                _tuiCodeSnippet2.default.forEach(
+                  this._els.searchForm,
+                  function (element) {
+                    element.addEventListener("submit", function (event) {
+                      event.preventDefault();
+                      var idForm = document.querySelector(
+                        ".tui-image-editor-search-form"
+                      );
+                      var inputText = idForm.querySelector("#id");
+                      var id = inputText.value;
+                      _this3._actions.main.retrieve(id);
+                    });
+                  }
+                );
+              },
+            },
             {
               key: "_addUploadEvent",
               value: function _addUploadEvent() {
@@ -5763,8 +5810,9 @@
 
                 this._editorElementWrap.style.bottom = "0px";
                 this._editorElementWrap.style.top = "0px";
-                this._editorElementWrap.style.left = "0px";
-                this._editorElementWrap.style.width = "100%";
+                this._editorElementWrap.style.left = "248px";
+                this._editorElementWrap.style.right = "0px";
+                // this._editorElementWrap.style.width = "100%";
 
                 var selectElementClassList = this._selectedElement.classList;
 
@@ -6181,6 +6229,8 @@
                 this._addHelpActionEvent("delete");
                 this._addHelpActionEvent("deleteAll");
 
+                this._addSearchButtonEvent();        // searchAPI
+                this._addSearchEvent();
                 this._addDownloadEvent();
                 this._addUploadEvent();
                 this._addRetrieveButtonEvent();
@@ -6367,46 +6417,46 @@
                   width = _getEditorDimension3.width,
                   height = _getEditorDimension3.height;
 
-                var editorElementStyle = this._editorElement.style;
-                var top = 0;
-                var left = 0;
+              //   var editorElementStyle = this._editorElement.style;
+              //   var top = 0;
+              //   var left = 0;
 
-                if (this.submenu) {
-                  if (menuBarPosition === "bottom") {
-                    if (height > this._editorElementWrap.scrollHeight - 150) {
-                      top = (height - this._editorElementWrap.scrollHeight) / 2;
-                    } else {
-                      top = (150 / 2) * -1;
-                    }
-                  } else if (menuBarPosition === "top") {
-                    if (height > this._editorElementWrap.offsetHeight - 150) {
-                      top =
-                        150 / 2 -
-                        (height -
-                          (this._editorElementWrap.offsetHeight - 150)) /
-                          2;
-                    } else {
-                      top = 150 / 2;
-                    }
-                  } else if (menuBarPosition === "left") {
-                    if (width > this._editorElementWrap.offsetWidth - 248) {
-                      left =
-                        248 / 2 -
-                        (width - (this._editorElementWrap.offsetWidth - 248)) /
-                          2;
-                    } else {
-                      left = 248 / 2;
-                    }
-                  } else if (menuBarPosition === "right") {
-                    if (width > this._editorElementWrap.scrollWidth - 248) {
-                      left = (width - this._editorElementWrap.scrollWidth) / 2;
-                    } else {
-                      left = (248 / 2) * -1;
-                    }
-                  }
-                }
-                editorElementStyle.top = top + "px";
-                editorElementStyle.left = left + "px";
+              //   if (this.submenu) {
+              //     if (menuBarPosition === "bottom") {
+              //       if (height > this._editorElementWrap.scrollHeight - 150) {
+              //         top = (height - this._editorElementWrap.scrollHeight) / 2;
+              //       } else {
+              //         top = (150 / 2) * -1;
+              //       }
+              //     } else if (menuBarPosition === "top") {
+              //       if (height > this._editorElementWrap.offsetHeight - 150) {
+              //         top =
+              //           150 / 2 -
+              //           (height -
+              //             (this._editorElementWrap.offsetHeight - 150)) /
+              //             2;
+              //       } else {
+              //         top = 150 / 2;
+              //       }
+              //     } else if (menuBarPosition === "left") {
+              //       if (width > this._editorElementWrap.offsetWidth - 248) {
+              //         left =
+              //           248 / 2 -
+              //           (width - (this._editorElementWrap.offsetWidth - 248)) /
+              //             2;
+              //       } else {
+              //         left = 248 / 2;
+              //       }
+              //     } else if (menuBarPosition === "right") {
+              //       if (width > this._editorElementWrap.scrollWidth - 248) {
+              //         left = (width - this._editorElementWrap.scrollWidth) / 2;
+              //       } else {
+              //         left = (248 / 2) * -1;
+              //       }
+              //     }
+              //   }
+              //   editorElementStyle.top = top + "px";
+              //   editorElementStyle.left = left + "px";
               },
             },
           ]);
@@ -6441,15 +6491,17 @@
             commonStyle +
             '">\n        <div class="tui-image-editor-header">\n            <div class="tui-image-editor-header-logo">\n       <a href="index.html">\n         <img src="' +
             biImage +
-            '" />\n       </a>\n     </div>\n            <div class="tui-image-editor-header-buttons">\n       <button style="' +
-            loadButtonStyle +
+            '" />\n       </a>\n     </div>\n            <div class="tui-image-editor-header-buttons">\n     <button class="tui-image-editor-search-btn" style="' +
+            downloadButtonStyle +
+            '">\n이미지 검색\n</button>\n       <div class="tui-image-editor-search-container" id="tui-image-editor-search-container" style="display:none; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; position: absolute; top: 10vh; right: 24vw; background-color: #f0f0f0; width: 50vw; font-size: 1rem; padding: 4vh 2vw; border-radius: 1.25em">\n  <button class="exit-button" id="exit-button" onclick="this.parentElement.style.display=\'none\';" style="border-radius: 1.25em;">닫기</button> <div class="box_inside">      <h1 class="search-container__title">이미지 검색</h1>    <form action="">     <input type="text" id="search-input" placeholder="검색어를 입력하세요">        <button id="search-button" style="vertical-align: middle;">검색</button>      </form>   <div class="scrollbox">   <div class="search-results">     <div class="search-result">     <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="car">       <a href="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" target="_blank">a red house</a>     </div>     <div class="search-result">      <img src="https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="a red house">      <a href="https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" target="_blank">car</a>    </div>      <div class="search-result">      <img src="https://images.unsplash.com/photo-1698252687043-f22f8d0b8a06?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHx8" alt="a red house">     <a href="https://unsplash.com/photos/a-red-house-sitting-on-top-of-a-cliff--CZZSD9QVVc" target="_blank">a red house</a>      </div>     <div class="search-result">      <img src="https://images.unsplash.com/photo-1491961713439-c6a3e7368eff?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="a red house">     <a href="https://images.unsplash.com/photo-1491961713439-c6a3e7368eff?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" target="_blank">a red house</a>      </div>  <div class="search-result"><img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=1935&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="cat, kitten, pet"><a href="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=1935&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" target="_blank">cat, kitten, pet</a></div>      <div class="search-result">      <img src="https://images.unsplash.com/photo-1679679008383-6f778fe07828?auto=format&fit=crop&q=80&w=2127&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="a red house">     <a href="https://images.unsplash.com/photo-1679679008383-6f778fe07828?auto=format&fit=crop&q=80&w=2127&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" target="_blank">a red house</a>      </div>   <div class="search-result"><img src="https://images.unsplash.com/photo-1508138221679-760a23a2285b?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="cat, kitten, pet"><a href="https://images.unsplash.com/photo-1508138221679-760a23a2285b?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" target="_blank">cat, kitten, pet</a></div>        <div class="search-result"><img src="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?auto=format&fit=crop&q=80&w=2139&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="cat, kitten, pet"><a href="https://images.unsplash.com/photo-1481349518771-20055b2a7b24?auto=format&fit=crop&q=80&w=2139&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" target="_blank">cat, kitten, pet</a></div>          <div class="search-result"><img src="https://plus.unsplash.com/premium_photo-1664391847942-f9c4562ad692?auto=format&fit=crop&q=80&w=1966&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="cat, kitten, pet"><a href="https://plus.unsplash.com/premium_photo-1664391847942-f9c4562ad692?auto=format&fit=crop&q=80&w=1966&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" target="_blank">cat, kitten, pet</a></div>     </div>       <button id="show-more-button">Show more</button>  </div>   </div>\n\n\n\n\n    </div>\n     <button style="' + // searchAPI
+            downloadButtonStyle +
             '">\n이미지 가져오기\n<input type="file" name= "file[]" class="tui-image-editor-load-btn" multiple/>\n</button>\n                <button class="tui-image-editor-download-btn" style="' +
             downloadButtonStyle +
             '">\n이미지 다운로드\n</button>\n       <button class="tui-image-editor-upload-btn" style="' +
-            loadButtonStyle +
+            downloadButtonStyle +
             '">\n프로젝트 저장하기\n</button>\n       <button class="tui-image-editor-retrieve-btn" style="' +
             downloadButtonStyle +
-            '">\n프로젝트 가져오기\n</button>\n       <div class="tui-image-editor-retrieve-container" id="tui-image-editor-retrieve-container" style="display:none; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; position: absolute; top: 20vh; right: 24vw; background-color: #f0f0f0; height: 40vh; width: 50vw; font-size: 1rem; padding: 4vh 2vw;">\n         <div class="retrieve-container__title">\n           <h3>프로젝트 ID를 입력해주세요.</h3>\n          </div>\n         <form action="retrieve.php" method="post" enctype="multipart/form-data" class="tui-image-editor-retrieve-form" id="tui-image-editor-retrieve-form" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; cursor: default;">\n           <input type="text" name="id" id="id" minlength="6" maxlength="6" placeholder="ID를 입력하세요" style="height: 5vh; width: 90%; margin-bottom: 3vh; margin-top: 3vh; padding: 5px;"/>\n           <div class="tui-image-editor-button-container"style="width: 100%; display: flex; justify-content: center; align-items: center">\n             <input type="submit" value="가져오기" name="submit" style="background-color: #33cc33; color: #fff; border: none; padding: 8px 16px; border-radius: 5px; margin-right: 20px;"/>\n             <input type="button" class="cancel-btn" value="취소" name="close" style="background-color: #cc3333; color: #fff; border: none; padding: 8px 16px; border-radius: 5px;" onclick="this.parentElement.parentElement.parentElement.style.display=\'none\';"/>\n           </div>\n         </form>\n       </div>\n     </div>\n   </div>\n     <div class="tui-image-editor-main">\n            <div class="tui-image-editor-submenu">\n                <div class="tui-image-editor-submenu-style" style="' +
+            '">\n프로젝트 가져오기\n</button>\n       <div class="tui-image-editor-retrieve-container" id="tui-image-editor-retrieve-container" style="display:none; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; position: absolute; top: 20vh; right: 24vw; background-color: #f0f0f0; height: 40vh; width: 50vw; font-size: 1rem; padding: 4vh 2vw;">\n         <div class="retrieve-container__title">\n           <h3>프로젝트 ID를 입력해주세요.</h3>\n          </div>\n         <form action="retrieve.php" method="post" enctype="multipart/form-data" class="tui-image-editor-retrieve-form" id="tui-image-editor-retrieve-form" style="display: flex; flex-direction: column; justify-content: center; align-items: center; tui-image-editor-wrap; cursor: default;">\n           <input type="number" name="id" id="id" min="100000" max="999999" placeholder="ID를 입력하세요" style="height: 5vh; width: 90%; margin-bottom: 3vh; margin-top: 3vh; padding: 5px;"/>\n           <div class="tui-image-editor-button-container"style="width: 100%; display: flex; justify-content: center; align-items: center">\n             <input type="submit" value="가져오기" name="submit" style="background-color: #33cc33; color: #fff; border: none; padding: 8px 16px; border-radius: 5px; margin-right: 20px;"/>\n             <input type="button" class="cancel-btn" value="취소" name="close" style="background-color: #cc3333; color: #fff; border: none; padding: 8px 16px; border-radius: 5px;" onclick="this.parentElement.parentElement.parentElement.style.display=\'none\';"/>\n           </div>\n         </form>\n       </div>\n     </div>\n   </div>\n     <div class="tui-image-editor-main">\n            <div class="tui-image-editor-submenu">\n                <div class="tui-image-editor-submenu-style" style="' +
             submenuStyle +
             '"></div>\n            </div>\n            <div class="tui-image-editor-wrap">\n                <div class="tui-image-editor-size-wrap">\n                    <div class="tui-image-editor-align-wrap">\n                        <div class="tui-image-editor"></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        </div>\n '
           );
@@ -14952,8 +15004,8 @@
 
                           var canvas = _this._graphics._canvas;
 
-                          var width = canvasSize.width,
-                            height = canvasSize.height;
+                          var width = canvasSize.width / image.width;
+                            height = canvasSize.height / image.height;
 
                           var oldWidth = canvas.width;
                           var oldHeight = canvas.height;
@@ -18480,6 +18532,7 @@
                 if (selectedElement.nodeName.toUpperCase() !== "CANVAS") {
                   canvasElement = document.createElement("canvas");
                   selectedElement.appendChild(canvasElement);
+                  
                 }
 
                 this._canvas = new _fabric2.default.Canvas(canvasElement, {

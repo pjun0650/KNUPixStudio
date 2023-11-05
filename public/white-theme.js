@@ -22,7 +22,8 @@ var whiteTheme = {
 
   // download button
   "downloadButton.backgroundColor": "#000",
-  "downloadButton.border": "1px solid #000",
+  "downloadButton.border": "1px solid #c93d2f0a",
+  "downloadButton.borderRadius": "1.25em",
   "downloadButton.color": "#fff",
   "downloadButton.fontFamily": "'Noto Sans', sans-serif",
   "downloadButton.fontSize": "1.2h",

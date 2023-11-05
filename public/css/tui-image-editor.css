@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-body {
+ body {
   overflow: hidden;
 }
 body {margin:0;padding:0}
@@ -42,7 +42,7 @@ body > textarea {
   /* BUTTON AND LOGO */
   min-width: 533px;
   position: absolute;
-  background-color: #fff;
+  background-color: #c93d2f;
   top: 0;
   width: 100%;
 }
@@ -123,9 +123,9 @@ body > textarea {
 }
 
 .tui-image-editor-container .tui-image-editor-wrap {
-  position: absolute;
+
   bottom: 0;
-  width: 100%;
+  /* width: 100%; */
   overflow: auto;
 }
 .tui-image-editor-container .tui-image-editor-wrap .tui-image-editor-size-wrap {
@@ -188,13 +188,53 @@ body > textarea {
   background-color: #2f2f2f;
   color: #fff;
   padding: 5px 8px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: lighter;
   border-radius: 3px;
-  max-height: 23px;
+  max-height: 25px;
   top: -22px;
   left: 0;
-  min-width: 24px;
+  min-width: 55px;
+}
+.tui-image-editor-container
+  .tui-image-editor-menu
+  > .tui-image-editor-item[title="Crop"]:hover:after {
+    content: "자르기";
+}
+.tui-image-editor-container
+  .tui-image-editor-menu
+  > .tui-image-editor-item[title="Flip"]:hover:after {
+    content: "반전";
+}
+.tui-image-editor-container
+  .tui-image-editor-menu
+  > .tui-image-editor-item[title="Rotate"]:hover:after {
+    content: "회전";
+}
+.tui-image-editor-container
+  .tui-image-editor-menu
+  > .tui-image-editor-item[title="Draw"]:hover:after {
+    content: "그리기";
+}
+.tui-image-editor-container
+  .tui-image-editor-menu
+  > .tui-image-editor-item[title="Shape"]:hover:after {
+    content: "도형";
+}
+.tui-image-editor-container
+  .tui-image-editor-menu
+  > .tui-image-editor-item[title="Icon"]:hover:after {
+    content: "스티커";
+}
+.tui-image-editor-container
+  .tui-image-editor-menu
+  > .tui-image-editor-item[title="Text"]:hover:after {
+    content: "텍스트";
+}
+.tui-image-editor-container
+  .tui-image-editor-menu
+  > .tui-image-editor-item[title="Filter"]:hover:after {
+    content: "필터";
 }
 .tui-image-editor-container
   .tui-image-editor-menu
@@ -283,6 +323,7 @@ body > textarea {
   height: 150px;
   white-space: nowrap;
   z-index: 2;
+  background-color: #FAFAFA;
 }
 .tui-image-editor-container
   .tui-image-editor-submenu
@@ -1240,7 +1281,7 @@ body > textarea {
   margin-right: 10px;
 }
 
-.tui-image-editor-container
+/* .tui-image-editor-container
   .tui-image-editor-main.tui-image-editor-menu-crop
   .tui-image-editor-wrap,
 .tui-image-editor-container
@@ -1268,7 +1309,7 @@ body > textarea {
   .tui-image-editor-main.tui-image-editor-menu-filter
   .tui-image-editor-wrap {
   margin-bottom: 69px;
-}
+} */
 
 /* Hover effects for buttons */
 .tui-image-editor-download-btn:hover {
@@ -1338,4 +1379,152 @@ body > textarea {
 .tui-image-editor-size-wrapper button:hover {
   background-color: #000;
   color: #fff;
+}
+
+.retrieve-container__title {
+  text-align: center;
+  height: 5vh;
+  width: 90%;
+  margin-bottom: 3vh;
+  margin-top: 3vh;
+  padding: 5px
+}
+
+/* searchAPI */
+
+.search-container__title {
+  font-size: 30px;
+  font-weight: blod;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+#search-input{
+  width: 60%;
+  max-width: 400px;
+  padding: 10px 20px;
+  border: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  font-size: 18px; 
+  color: #333;
+}
+
+#search-button{
+  padding: 10px 20px;
+  background-color: #138065;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-family: "Noto Sans", sans-serif;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.search-results{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-result{
+  width: 30%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.search-result img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.2s ease-in-out;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.search-result:hover img{
+  opacity: 0.8;
+}
+
+.search-result a{
+  font-size: 20px;
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 10px;
+  text-transform: capitalize;
+}
+
+#show-more-button{
+  background-color: #008cba;
+  font-size: 15px;
+  border: none;
+  color: #fff;
+  padding: 8px 15px;
+  text-align: center;
+  display: block;
+  margin: 30px auto;
+  border-radius: 5px;
+  cursor: pointer;
+  display: none;
+}
+
+@media screen and (max-width: 768px){
+  .search-results{
+      padding: 20px;
+  }
+  .search-result{
+      width: 45%;
+  }
+}
+@media screen and (max-width: 480px){
+  .search-result{
+      width: 100%;
+  }
+}
+
+/* For scroll inside Image-search */
+
+.scrollbox {
+  overflow-y: auto;
+  max-height: calc(100vh - 45vh);
+}
+
+/*  For scrolls */
+/* ::-webkit-scrollbar {
+  width: 5px
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 10px;
+} */
+
+.exit-button {
+   background-color: #c93d2f; /* Background color for the exit button */
+   color: #ffffff; /* Text color for the exit button */
+   border: none;
+   padding: 10px 20px;
+   border-radius: 1.25em;
+   cursor: pointer;
+   z-index: 1001; /* Place it above the content */
+   display: flex;
+  position: relative;
+  top: -2.5vh;
+  left: 20vw;
+  font-size: 14px;
+  font-family: "Noto Sans", sans-serif;
 }
