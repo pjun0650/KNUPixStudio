@@ -6489,7 +6489,7 @@
           return (
             '\n    <div class="tui-image-editor-main-container" style="' +
             commonStyle +
-            '">\n        <div class="tui-image-editor-header">\n            <div class="tui-image-editor-header-logo">\n       <a href="index.html">\n         <img src="' +
+            '">\n        <div class="tui-image-editor-header">\n            <div class="tui-image-editor-header-logo">\n       <a href="">\n         <img src="' +
             biImage +
             '" />\n       </a>\n     </div>\n            <div class="tui-image-editor-header-buttons">\n     <button class="tui-image-editor-search-btn" style="' +
             downloadButtonStyle +
