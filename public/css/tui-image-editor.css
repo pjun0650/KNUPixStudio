@@ -81,17 +81,6 @@ body > textarea {
   letter-spacing: 0.3px;
   display: inline-block;
 }
-.tui-image-editor-container .tui-image-editor-download-btn {
-  background-color: #fdba3b;
-  border-color: #fdba3b;
-  color: #fff;
-}
-
-.tui-image-editor-container .tui-image-editor-recent-btn {
-  background-color: #fdba3b;
-  border-color: #fdba3b;
-  color: #fff;
-}
 
 .tui-image-editor-container .tui-image-editor-load-btn {
   position: absolute;
@@ -1105,7 +1094,7 @@ body > textarea {
   height: auto;
 }
 .tui-image-editor-container .filter-color-item .color-picker-control label {
-  font-color: #333;
+  /* font-color: #333; */
   font-weight: normal;
   margin-right: 7pxleft;
 }
@@ -1310,7 +1299,7 @@ body > textarea {
 }
 
 /* Styling for the tui-image-editor-retrieve-container */
-.tui-image-editor-retrieve-container {
+.tui-image-editor-retrieve-container, .tui-image-editor-search-container {
   background-color: #f7f7f7; /* Change the background color */
   border: 2px solid #333; /* Add a border */
   border-radius: 10px;
@@ -1379,8 +1368,8 @@ body > textarea {
   cursor: pointer;
 }
 .horizontal-item>button:hover {
-  background-color: rgb(162, 186, 234); /* Background color on hover */
-  color: black; /* Text color on hover */
+  background-color: #e86c5f; /* Background color on hover */
+  color: white; /* Text color on hover */
 }
 
 
@@ -1432,20 +1421,20 @@ form{
   margin: 0 auto;
 }
 
-.search-result{
+.search-result {
   width: 30%;
   height: 200px;
   overflow: hidden;
+  margin-bottom: 10px !important;
 }
 
-.search-result img{
+.search-result img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: opacity 0.2s ease-in-out;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  margin-bottom: 10px;
   overflow: hidden;
 }
 
@@ -1497,15 +1486,22 @@ form{
   max-height: calc(100vh - 45vh);
 }
 
-/*  For scrolls */
-/* ::-webkit-scrollbar {
-  width: 5px
+::-webkit-scrollbar {
+  width: 10px
+}
+
+::-webkit-scrollbar:horizontal{
+  height: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #000;
-  border-radius: 10px;
-} */
+  background: #c93d2f;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff; /* Change the background color as needed */
+}
+
+/* Button Settings */
 
 .exit-button {
    background-color: #c93d2f; /* Background color for the exit button */
@@ -1521,4 +1517,34 @@ form{
   left: 20vw;
   font-size: 14px;
   font-family: "Noto Sans", sans-serif;
+}
+.exit-button:hover, .cancel-btn:hover {
+  background-color: #ff0000 !important; /* This sets the color property with importance */
+  color: #fff !important;
+}
+
+.submit-btn:hover {
+  background-color: #ff8844 !important; /* This sets the color property with importance */
+  color: #fff !important;
+}
+
+#search-button:hover {
+  background-color: rgb(128, 108, 96) !important; /* This sets the color property with importance */
+  color: #fff !important;
+}
+
+#show-more-button:hover {
+  background-color: #4fbce0 !important; /* This sets the color property with importance */
+  color: #fff !important;
+}
+
+/* Header Buttons */
+.tui-image-editor-download-btn, .tui-image-editor-upload-btn, .tui-image-editor-retrieve-btn, .tui-image-editor-load-btn, .tui-image-editor-search-btn, .btn-download {
+  background-color: rgb(255, 255, 255) !important; /* This sets the color property with importance */
+  color: #000 !important;
+}
+
+.tui-image-editor-download-btn:hover, .tui-image-editor-upload-btn:hover, .tui-image-editor-retrieve-btn:hover, .tui-image-editor-load-btn:hover, .tui-image-editor-search-btn:hover, .btn-download:hover {
+  background-color: #000 !important; /* This sets the color property with importance */
+  color: #fff !important;
 }

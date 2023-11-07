@@ -25,14 +25,13 @@ export async function searchImages() {
     const imageWrapper = document.createElement("div");
     imageWrapper.classList.add("search-result");
     const image = document.createElement("img");
-    image.src = result.previewURL; // Pixabay에서는 "previewURL"을 사용하여 미리 보기 이미지를 가져옵니다.
+    image.src = result.webformatURL; // Pixabay에서는 "previewURL"을 사용하여 미리 보기 이미지를 가져옵니다.
     image.alt = result.tags; // Alt 텍스트 설정
 
     const imageLink = document.createElement("a");
     imageLink.href = result.pageURL; // 이미지 페이지로 연결
     imageLink.target = "_blank";
     imageLink.textContent = result.tags;
-
     imageWrapper.appendChild(image);
     imageWrapper.appendChild(imageLink);
     searchResults.appendChild(imageWrapper);
@@ -54,4 +53,17 @@ formEl.addEventListener("submit", (event) => {
 
 showMore.addEventListener("click", () => {
   searchImages();
+});
+
+// Add a click event handler to the parent container of the Pixabay images
+searchResults.addEventListener('click', function (event) {
+  if (event.target.tagName === 'IMG') {
+      var imageUrl = event.target.getAttribute('src');
+      // Load the clicked image into the TUI Image Editor
+      imageEditor.addImageObject(imageUrl, 'new_image_name');
+  }
+  var searchContainer = document.getElementById('tui-image-editor-search-container');
+  if (searchContainer) {
+    searchContainer.style.display = 'none';
+  }
 });

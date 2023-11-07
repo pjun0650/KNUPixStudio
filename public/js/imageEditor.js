@@ -648,7 +648,7 @@ class ImageEditor {
    *     console.log(ojectProps.id);
    * });
    */
-  addImageObject(imgUrl) {
+  addImageObject(imgUrl) {      // AddImageFromBigData
     if (!imgUrl) {
       return Promise.reject(rejectMessages.invalidParameters);
     }
