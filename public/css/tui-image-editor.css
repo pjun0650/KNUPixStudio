@@ -1269,17 +1269,6 @@ body > textarea {
   display: none;
 }
 
-.tui-image-editor-size-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-
-}
-
-.tui-image-editor-size-wrapper input {
-  width: 50px;
-  margin-right: 10px;
-}
 
 /* .tui-image-editor-container
   .tui-image-editor-main.tui-image-editor-menu-crop
@@ -1341,54 +1330,59 @@ body > textarea {
   display: flex;
 }
 
-/* Style for the size wrapper */
-.tui-image-editor-size-wrapper {
-  width: 100%;
-}
+/* Style for the tui-image-editor-size-wrapper item */
 
-/* Style for labels and input fields */
-.tui-image-editor-size-wrapper span {
-  font-weight: bold;
-  font-size: 11px;
-  color: #000;
+.tui-image-editor-size-wrapper {
+  position: relative;
   display: flex;
-  margin-right: 10px;
+  align-items: center;
 }
 
 .tui-image-editor-size-wrapper input {
-  padding: 5px;
-  border: 1px solid #000;
-  border-radius: 3px;
-  font-size: 11px;
-  width: 100%;
+  width: 70px;
 }
 
-/* Style for the button */
-.tui-image-editor-size-wrapper button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  border-radius: 3px;
-  font-size: 11px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+.centered-text {
+  margin-top: 15px;
+  text-align: center; /* Horizontally center the text */
+  display: flex;
+  font-style: bold;
+  justify-content: center; /* Horizontally center the element itself (optional) */
+  align-items: center; /* Vertically center the element itself (optional) */
+  /* Add any other styling you need */
 }
 
-.tui-image-editor-size-wrapper button:hover {
-  background-color: #000;
-  color: #fff;
-}
 
-.retrieve-container__title {
+.horizontal-container>div {
+	display: table-cell;
+	/* For visibility only: */
+	text-align: center;
+	border: thin solid #999;
+}
+.horizontal-container {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
   text-align: center;
-  height: 5vh;
-  width: 90%;
-  margin-bottom: 3vh;
-  margin-top: 3vh;
-  padding: 5px
 }
+.horizontal-item>button {
+  margin-top: 5px;
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
+  /* Add any other styling you need */
+  background-color: #c93d2f; /* Initial background color */
+  color: white; /* Initial text color */
+  padding: 10px 10px; /* Adjust padding as needed */
+  border: none; /* Remove border if not needed */
+  border-radius: 15px;
+  cursor: pointer;
+}
+.horizontal-item>button:hover {
+  background-color: rgb(162, 186, 234); /* Background color on hover */
+  color: black; /* Text color on hover */
+}
+
 
 /* searchAPI */
 
