@@ -1399,9 +1399,10 @@
     <script type="text/javascript" src="./js/FileSaver.min.js"></script>
     <script type="text/javascript" src="./js/tui-color-picker.js"></script>
     <script type="text/javascript" src="./js/tui-image-editor.js"></script>
+    <script type="module" src="./js/script_pixabay.js"></script>
     <script type="text/javascript" src="./white-theme.js"></script>
-    <script>
 
+    <script>
 
 // Declare variables
 var imageEditor;
@@ -1509,8 +1510,8 @@ async function createImageEditor() {
       initMenu: "text",
       menuBarPosition: "left",
     },
-    cssMaxWidth: 1500,
-    cssMaxHeight: 3000,
+    cssMaxWidth: 4000,
+    cssMaxHeight: 4000,
   });
 }
 
@@ -1525,6 +1526,40 @@ async function init() {
 
 // Call the initialization function
 init();
+
+var fileInput = document.getElementById('fileInput');
+
+fileInput.addEventListener('change', function (e) {
+    var file = e.target.files[0];
+
+    if (file) {
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+            var image = new Image();
+            image.src = event.target.result;
+
+            image.onload = function () {
+                // Add the new image to the TUI Image Editor canvas
+                imageEditor.addImageObject(event.target.result, file.name);
+            };
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+// Get all the image elements in the image list
+var imageElements = document.querySelectorAll('.search-result img');
+
+// Add a click event handler to each image element
+imageElements.forEach(function (img) {
+    img.addEventListener('click', function () {
+        var imageUrl = img.getAttribute('src');
+        // Load the clicked image into the TUI Image Editor
+        imageEditor.addImageObject(imageUrl, 'new_image_name');
+    });
+});
 
     </script>
   </body>

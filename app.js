@@ -5,6 +5,7 @@ const imgRouter = require('./server/routes/img');
 const app = express();
 
 app.use('/', imgRouter);
+app.use(express.static('public'));
 
 app.get('/', function (req, res) {
     fs.readFile('index.html', 'utf8', function (err, data) {
@@ -17,7 +18,7 @@ app.get('/', function (req, res) {
     });
   })
 
-// 3000 port
-app.listen(3000, () => {
+// port number
+app.listen(80, () => {
     console.log("listening...");
 });
