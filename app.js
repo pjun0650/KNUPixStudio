@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
     });
   })
 
-// 3000 port
-app.listen(3000, () => {
+// port number
+app.listen(80, () => {
     console.log("listening...");
 });
