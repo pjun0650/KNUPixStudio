@@ -1529,25 +1529,27 @@ init();
 
 var fileInput = document.getElementById('fileInput');
 
-fileInput.addEventListener('change', function (e) {
-    var file = e.target.files[0];
+if (fileInput != null) {
+  fileInput.addEventListener('change', function (e) {
+      var file = e.target.files[0];
 
-    if (file) {
-        var reader = new FileReader();
+      if (file) {
+          var reader = new FileReader();
 
-        reader.onload = function (event) {
-            var image = new Image();
-            image.src = event.target.result;
+          reader.onload = function (event) {
+              var image = new Image();
+              image.src = event.target.result;
 
-            image.onload = function () {
-                // Add the new image to the TUI Image Editor canvas
-                imageEditor.addImageObject(event.target.result, file.name);
-            };
-        };
+              image.onload = function () {
+                  // Add the new image to the TUI Image Editor canvas
+                  imageEditor.addImageObject(event.target.result, file.name);
+              };
+          };
 
-        reader.readAsDataURL(file);
-    }
-});
+          reader.readAsDataURL(file);
+      }
+  });
+}
 
 // Get all the image elements in the image list
 var imageElements = document.querySelectorAll('.search-result img');
@@ -1559,6 +1561,28 @@ imageElements.forEach(function (img) {
         // Load the clicked image into the TUI Image Editor
         imageEditor.addImageObject(imageUrl, 'new_image_name');
     });
+});
+
+// load the project class and the image class
+const zoomArea = document.querySelector(".tui-image-editor-wrap");
+const zoomImage = document.querySelector(".tui-image-editor");
+let zoom = 1.0;
+const ZOOM_SPEED = 0.05;
+
+// zoom in&out the image (use mouse wheel)
+zoomArea.addEventListener("wheel", function (e) {
+  if (e.altKey == true || e.shiftKey == true) {
+    return;
+  } else {
+    e.preventDefault();
+  }
+
+  if (e.deltaY < 0) {
+    zoomImage.style.transform = `scale(${(zoom += ZOOM_SPEED)})`;
+  } else {
+    if (zoom <= 0.1) return;
+    zoomImage.style.transform = `scale(${(zoom -= ZOOM_SPEED)})`;
+  }
 });
 
     </script>
