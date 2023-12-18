@@ -15108,6 +15108,9 @@
                         for (var i = 0; i < tempCanvas._objects.length; i++) {
                           if (tempCanvas._objects[i].type === "ellipse") {
                             tempCanvas._objects[i].type = "circle";
+                          } else if (tempCanvas._objects[i].type === "i-text") {
+                            tempCanvas._objects[i].left -= tempCanvas._objects[i].width / 2;
+                            tempCanvas._objects[i].top -= tempCanvas._objects[i].height / 2                            
                           }
                         }
 
@@ -15168,6 +15171,7 @@
                               } else {
                                 var object = tempCanvas._objects[i];
                                 object.canvas = _this._graphics._canvas;
+                                console.log(object.type);
 
                                 try {
                                   if (!_this._graphics.contains(object)) {
@@ -15286,10 +15290,10 @@
                   var scaleX = (moveOriginPointer.x - startX) / iconWidth;
                   var scaleY = (moveOriginPointer.y - startY) / iconHeight;
 
-                  _this2.setObjectPropertiesQuietly(objId, {
-                    scaleX: Math.abs(scaleX * 2),
-                    scaleY: Math.abs(scaleY * 2),
-                  });
+                  // _this2.setObjectPropertiesQuietly(objId, {
+                  //   scaleX: Math.abs(scaleX * 2),
+                  //   scaleY: Math.abs(scaleY * 2),
+                  // });
                 },
                 iconCreateEnd: function iconCreateEnd() {
                   _this2.ui.icon.clearIconType();
@@ -21912,6 +21916,7 @@
 
                   canvas.forEachObject((obj) => {
                     if (obj.type === "i-text") {
+                      console.log("i-text start")
                       if (obj.text === "") {
                         canvas.remove(obj);
                       } else {
