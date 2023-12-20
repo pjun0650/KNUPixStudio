@@ -85,6 +85,7 @@ router.post('/upload.php', uploadFields, (req, res) => {
       const data = JSON.stringify(req.body);
       await blockBlobClient.upload(data, data.length);
 
+      connection.commit();
       connection.close();
       console.log('새 프로젝트 등록:' + newID);
       res.send(newID);
@@ -210,6 +211,7 @@ schedule.scheduleJob('0 0 0 * * *', function() {
           }
         });
         connection.query('set sql_safe_updates=1');
+        connection.commit();
       } catch (error) {
         console.log("azure에서 24시간 지난 파일 삭제 실패")
       }
