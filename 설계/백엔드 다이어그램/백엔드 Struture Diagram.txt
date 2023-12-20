@@ -1,0 +1,21 @@
+Web Client는 사용자의 브라우저(ex. Chrome, Edge, Safari)입니다.
+
+DNS는 도메인 주소를 웹 서버의 IP주소로 바꿔줍니다.
+
+Web Server는 사용자에게 이미지 편집 웹페이지를 제공합니다.
+	- Nods.js 기반으로, Express.js 프레임워크를 활용하여 구축하였습니다.
+	- 웹 서버 서비스는 네이버 클라우드 서비스를 이용하고 있습니다.
+
+Web Container는 동적으로 웹페이지의 요소를 변경합니다.
+	- Node.js 기반으로 작성되었습니다.
+	- MySQL 라이브러리를 이용하여, 데이터베이스 서버에 프로젝트 정보를 저장하고 불러옵니다.
+	- Azure Storage Blob 라이브러리를 이용하여, 파일 서버에 프로젝트 데이터를 저장하고 불러옵니다.
+	- Multer 라이브러리를 활용하여 파일 업로드를 처리합니다.
+
+
+DB Server(Database Server)는 프로젝트 정보를 저장합니다.
+	- MySQL DBMS로 구축하였습니다.
+	- Amazon의 RDS 웹 서비스를 이용하고 있습니다.
+
+File Server는 프로젝트 데이터를 저장합니다.
+	- Microsoft의 Blob Storage 웹 서비스를 이용하고 있습니다.
