@@ -12,8 +12,8 @@ console.log(process.env.FS_ACCOUNT_NAME);
 const accountName = process.env.FS_ACCOUNT_NAME;
 const accountKey = process.env.FS_ACCOUNT_KEY;
 const containerName = process.env.FS_CONTAINER_NAME;
-const sharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
-const blobServiceClient = new BlobServiceClient(`https://${accountName}.blob.core.windows.net`, sharedKeyCredential);
+const sharedKeyCredential = accountName ? new StorageSharedKeyCredential(accountName, accountKey) : "";
+const blobServiceClient = accountName ? new BlobServiceClient(`https://${accountName}.blob.core.windows.net`, sharedKeyCredential) : "";
 const containerClient = containerName ? blobServiceClient.getContainerClient(containerName) : "";
 
 // AWS MySQL
