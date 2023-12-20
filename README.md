@@ -38,7 +38,7 @@ http://175.45.204.252/
      - 계정에 접속해 데이터베이스를 하나 생성하고(create database), 아래 명령대로 테이블을 하나 생성합니다.  
        create table TEMP_IMAGE(ID int unsigned not null primary key, Save_path varchar(255), Save_time datetime);
 2. **.env 파일 수정**
-   - 최상위 폴더에서 .env 파일을 텍스트 편집기로 열어 아래 예시처럼 수정해 줍니다.  
+   - (다운 받은 소스 코드 내) 최상위 폴더에서 .env 파일을 텍스트 편집기로 열어 아래 예시처럼 수정해 줍니다.  
       ![image](https://github.com/pjun0650/PixStudio/assets/58252317/b39fd941-378a-4757-8eae-96a0146f4138)
       ![image](https://github.com/pjun0650/PixStudio/assets/58252317/63348a17-c9be-43b0-9c12-42e101c418e2)
 3. **수정한 .env 파일을 pixstudioApp 폴더로 이동**  
