@@ -7,7 +7,6 @@ require('dotenv').config();
 const schedule = require('node-schedule');
 const bodyParser = require('body-parser')
 
-console.log(process.env.FS_ACCOUNT_NAME);
 // Azure blob storage
 const accountName = process.env.FS_ACCOUNT_NAME;
 const accountKey = process.env.FS_ACCOUNT_KEY;
